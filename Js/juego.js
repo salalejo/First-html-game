@@ -71,7 +71,7 @@ var protagonista = function(){
 
     this.arriba = function(){
         if(escenario[this.y-1][this.x] == 2){
-            this.y --;
+            this.y -=1;
         }
             
     }
