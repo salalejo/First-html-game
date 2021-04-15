@@ -15,13 +15,13 @@ var altoFichaTablero = 50;
 //ARRAY DE LAS FICHAS DEL TABLERO
 var escenario = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    [0, 2, 2, 2, 0, 0, 0, 0, 2, 0],
+    [0, 0, 2, 0, 0, 0, 0, 0, 2, 0],
+    [0, 0, 2, 0, 2, 0, 0, 2, 2, 0],
+    [0, 0, 2, 0, 2, 0, 0, 0, 2, 0],
+    [0, 2, 2, 2, 2, 2, 2, 2, 2, 0],
+    [0, 0, 2, 0, 0, 0, 2, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
 //VARIABLES DE LOS COLORES SEGUN EL TIPO DE LAS FICHAS DEL TABLERO
@@ -54,67 +54,79 @@ function dibujaEscenario(){
 }
 
 //MODELO DINO
-var protagonista = function(x,y){
-    this.x = x;
-    this.y = y;
-    this.velocidad = 3;
+var protagonista = function(){
+    this.x = 1;
+    this.y = 1;
+    this.velocidad = 10;
 
     //DIBUJA EL DINO
     this.dibuja = function(){
-        ctx.drawImage(imgDino, this.x, this.y, 80, 80);
-        ctx.font = '20px impact';
-        ctx.fillStyle = '#555555';
-        ctx.fillText('X: ' + this.x, 50, 50);
+        // ctx.drawImage(imgDino, this.x, this.y, 50, 50);
+        // ctx.font = '20px impact';
+        // ctx.fillStyle = '#555555';
+        ctx.fillStyle = '#FF0000';
+        ctx.fillRect(this.x*anchoFichaTablero, this.y*altoFichaTablero, 50, 50);
+        ctx.fillText('X: ' + this.x + 'Y :' + this.y, 50, 50);
     }
 
     this.arriba = function(){
-        this.y -= this.velocidad;
+        if(escenario[this.y-1][this.x] == 2){
+            this.y --;
+        }
+            
     }
 
     this.abajo = function(){
-        this.y += this.velocidad;
+        if(escenario[this.y+1][this.x] == 2){
+            this.y ++;
+        }
     }
 
     this.derecha = function(){
-        this.x += this.velocidad;
+        if(escenario[this.y][this.x+1] == 2){
+            this.x ++;
+        }
     }
 
     this.izquierda = function(){
-        this.x -= this.velocidad;
-    }
-
-}
-
-//MODELO PERSONAJE
-var personaje = function(x,y){
-    this.x = x;
-    this.y = y;
-    this.derecha = true;
-
-    //FUNCION QUE DIBUJA LOS RECTANGULOS
-    this.dibuja = function(){
-        ctx.fillStyle = '#FF0000';
-        ctx.fillRect(this.x, this.y, 50, 50);
-    }
-
-    //FUNCION QUE MUEVE LOS RECTANGULOS DE IZQ A DER
-    this.mueve = function(velocidad){
-        if(this.derecha == true){
-            if(this.x < 450){
-                this.x += velocidad;
-            }else{
-                this.derecha = false;
-            }    
-        }else{
-            if(this.x>0){
-                this.x -= velocidad;
-            }else{
-                this.derecha = true;
-            }
+        if(escenario[this.y][this.x-1] == 2){
+            this.x --;
         }
-        
     }
+    
+
 }
+
+// //MODELO PERSONAJE
+// var personaje = function(x,y){
+//     this.x = x;
+//     this.y = y;
+//     this.derecha = true;
+
+//     //FUNCION QUE DIBUJA LOS RECTANGULOS
+//     this.dibuja = function(){
+//         ctx.fillStyle = '#FF0000';
+//         ctx.fillRect(this.x, this.y, 50, 50);
+//     }
+
+//     //FUNCION QUE MUEVE LOS RECTANGULOS DE IZQ A DER
+//     this.mueve = function(velocidad){
+//         if(this.derecha == true){
+//             if(this.x < 450){
+//                 this.x += velocidad;
+//             }else{
+//                 this.derecha = false;
+//             }    
+//         }else{
+//             if(this.x>0){
+//                 this.x -= velocidad;
+//             }else{
+//                 this.derecha = true;
+//             }
+//         }
+        
+//     }
+// }
 
 //BORRAR EL CANVAS CADA FRAME
 function borrarCanvas(){
@@ -123,10 +135,10 @@ function borrarCanvas(){
 }
 
 //CREACION DE PERSONAJES
-var p1 = new personaje(10,100);
-var p2 = new personaje(10,200);
-var p3 = new personaje(10,350);
-var protaDino = new protagonista(200, 200);
+// var p1 = new personaje(10,100);
+// var p2 = new personaje(10,200);
+// var p3 = new personaje(10,350);
+var protaDino = new protagonista();
 
 //EVENTO DE PRESIONAR LAS TECLAS DE MOVIMIENTO PARA MOVER EL PROTAGONISTA
 document.addEventListener('keydown', function(tecla){
@@ -172,15 +184,7 @@ function inicializa(){
 function principal(){
     borrarCanvas();//ES LO PRIMERO QUE HACE EL BUCLE EN CADA FRAME
     dibujaEscenario();
-    p1.dibuja();
-    p2.dibuja();
-    p3.dibuja();
-
-    p1.mueve(5);
-    p2.mueve(7);
-    p3.mueve(9);
-
-    
+   
     protaDino.dibuja();
     
 }
