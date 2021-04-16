@@ -11,10 +11,13 @@ var imgDino;
 var imgLlave;
 var imgPuerta;
 var tileMap;
+var imgFantasma;
 
 //VARIABLES DEL ANCHO Y ALTO DE LA CASILLA DEL TABLERO
 var anchoFichaTablero = 50;
 var altoFichaTablero = 50;
+
+var enemigos = [];
 
 //ARRAY DE LAS FICHAS DEL TABLERO
 var escenario = [
@@ -85,6 +88,19 @@ function verificarObjeto(x, y){
             textoEstadoJuego.innerHTML = 'Te falta la llave :(';
         }
     }
+
+    
+}
+
+//CUANDO COLISIONA EL PROTAGONISTA CON UN ENEMIGO
+function perder(){
+    if(protaDino.x == enemigos[0].x && protaDino.y == enemigos[0].y){
+        imgLlave.src = 'images/Llave.png';
+        protaDino.tieneLlave = false;
+        protaDino.x = 1;
+        protaDino.y = 1;
+        textoEstadoJuego.innerHTML = "Perdiste, inténtalo nuevamente :("
+    }
 }
 
 //MODELO PROTAGONISTA
@@ -104,7 +120,7 @@ var protagonista = function(){
 
     this.arriba = function(){
         if(escenario[this.y-1][this.x] == 2 || escenario[this.y-1][this.x] == 1){
-            this.y -=1;
+            this.y --;
             
         }
         verificarObjeto(this.x, this.y);   
@@ -118,14 +134,14 @@ var protagonista = function(){
     }
 
     this.derecha = function(){
-        if(escenario[this.y][this.x+1] == 2 || escenario[this.x+1][this.x] == 1){
+        if(escenario[this.y][this.x+1] == 2 || escenario[this.y][this.x+1] == 1){
             this.x ++;
         }
         verificarObjeto(this.x, this.y);
     }
 
     this.izquierda = function(){
-        if(escenario[this.y][this.x-1] == 2 || escenario[this.x-1][this.x] == 1){
+        if(escenario[this.y][this.x-1] == 2 || escenario[this.y][this.x-1] == 1){
             this.x --;
         }
         verificarObjeto(this.x, this.y);
@@ -134,36 +150,52 @@ var protagonista = function(){
 
 }
 
-// //MODELO PERSONAJE
-// var personaje = function(x,y){
-//     this.x = x;
-//     this.y = y;
-//     this.derecha = true;
+//MODELO DEL ENEMIGO
+var enemigo = function(x,y,velocidad){
+    
+    this.x = x;
+    this.y = y;
+    var velocidad = 2;
+    this.derecha = true;
+    this.izquierda = false;
+    this.retraso = 20;
+    this.contadorRetraso = 0;
 
-//     //FUNCION QUE DIBUJA LOS RECTANGULOS
-//     this.dibuja = function(){
-//         ctx.fillStyle = '#FF0000';
-//         ctx.fillRect(this.x, this.y, 50, 50);
-//     }
-
-//     //FUNCION QUE MUEVE LOS RECTANGULOS DE IZQ A DER
-//     this.mueve = function(velocidad){
-//         if(this.derecha == true){
-//             if(this.x < 450){
-//                 this.x += velocidad;
-//             }else{
-//                 this.derecha = false;
-//             }    
-//         }else{
-//             if(this.x>0){
-//                 this.x -= velocidad;
-//             }else{
-//                 this.derecha = true;
-//             }
-//         }
+    console.log('enemigo creado');
+    this.dibuja = function(){
+        ctx.drawImage(imgFantasma, this.x*anchoFichaTablero, this.y*altoFichaTablero, 50, 50);
         
-//     }
-// }
+    }
+    
+    this.mueve = function(){
+        if(this.contadorRetraso < this.retraso){
+            this.contadorRetraso++;
+        }else{
+            if(escenario[this.y][this.x+1] == 2 && this.derecha == true){
+                this.x++;
+                this.contadorRetraso = 0;
+            }else{
+                this.izquierda = true;
+                this.derecha = false;
+            }
+            
+            if(escenario[this.y][this.x-1] == 2 && this.izquierda ==true){
+                this.x--;
+                this.contadorRetraso = 0;
+            }else{
+                this.derecha = true;
+                this.izquierda = false;
+            }
+        }
+        
+
+        
+        
+    }
+    
+    
+}
+
 
 //BORRAR EL CANVAS CADA FRAME
 function borrarCanvas(){
@@ -171,11 +203,10 @@ function borrarCanvas(){
     canvas.height = '400';
 }
 
-//CREACION DE PERSONAJES
-// var p1 = new personaje(10,100);
-// var p2 = new personaje(10,200);
-// var p3 = new personaje(10,350);
+//CREACION DE OBJETOS PROTAGONISTA Y ENEMIGOS
 var protaDino = new protagonista();
+enemigos.push(new enemigo(1,5));
+
 
 //EVENTO DE PRESIONAR LAS TECLAS DE MOVIMIENTO PARA MOVER EL PROTAGONISTA
 document.addEventListener('keydown', function(tecla){
@@ -212,10 +243,15 @@ function inicializa(){
     tileMap = new Image();
     tileMap.src = 'images/tilemap.png';
     
+    //CARGAMOS IMAGEN LLAVE YPUERTA
     imgLlave = new Image();
     imgPuerta = new Image();;
     imgLlave.src = 'images/Llave.png';
     // imgPuerta.src = 'images/Puerta.png';
+
+    //CARGAMOS IMAGEN ENEMIGO
+    imgFantasma = new Image();
+    imgFantasma.src = 'images/enemigofantasma.png'
     dibujaEscenario();
 
     setInterval(function(){
@@ -231,6 +267,9 @@ function principal(){
    
     protaDino.dibuja();
     
+    enemigos[0].dibuja();
+    enemigos[0].mueve();
+    perder();
     
 }
 
