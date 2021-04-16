@@ -3,13 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Juego Alejandro Salazar</title>
-    <script src='Js/juego.js'></script>
-    <script src='Js/keypress.js'></script>
+    <link href="styles.css" rel="stylesheet" type="text/css">
+    
 </head>
 <body onload='inicializa();'>
     <canvas id='canvas' width='500' height='400' style='border: 3px solid #000000;'></canvas>
+    <div id='container-estado-juego'>
+        <h1 id='estado-juego'>Encuentra la llave</h1>
+    </div>
+    <div>
+        <h1>BIENVENIDO A MI PRIMER JUEGO HTML</h1>
+        <pre>
+            Instrucciones para jugar:
 
 
+            Utiliza las teclas de dirección de tu teclado para moverte
+            Recoge la llave para poder salir del laberinto y ganar la partida.
+        </pre>
+    </div>
 
+    <script src='Js/juego.js'></script>
+    <script src='Js/keypress.js'></script>
 </body>
 </html>

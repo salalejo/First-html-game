@@ -1,7 +1,8 @@
 //VARIABLES DEL CANVAS Y CONTEXTO
 var canvas;
 var ctx;
-
+var textoEstadoJuego;
+textoEstadoJuego = document.getElementById('estado-juego');
 //VARIABLE DE LOS FRAMES PER SECOND
 var FPS = 50;
 
@@ -62,7 +63,8 @@ function dibujaEscenario(){
 function verificarObjeto(x, y){
     
     if(x == (4) && y == (3)){
-        console.log('has cogido la llave');
+        textoEstadoJuego.innerHTML = 'Tienes la llave';
+        
         protaDino.tieneLlave = true;
         imgLlave.src= '';
     }
@@ -73,8 +75,10 @@ function verificarObjeto(x, y){
             protaDino.tieneLlave = false;
             protaDino.x = 1;
             protaDino.y = 1;
+            textoEstadoJuego.innerHTML = '¡Ganaste! \n Intentalo Nuevamente';
         }else{
             console.log('Te falta la llave');
+            textoEstadoJuego.innerHTML = 'Te falta la llave :(';
         }
     }
 }
