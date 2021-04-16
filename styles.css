@@ -17,8 +17,9 @@ pre{
 }
 
 #teclas-movimiento{
-    
-    
+    background-color: #132c33;
+    height: 250px;
+    padding-top: 50px;
 }
 
 #botonarriba{
@@ -45,11 +46,12 @@ pre{
     /* position: absolute; */
     padding-top: 50px;
     padding-bottom: 50px;
+    background-color: #51c4d3;
 }
 
 #container-top{
     text-align: center;
-    background-color: rgb(149, 167, 167);
+    background-color: #d8e3e7;
     margin: 0px;
     padding-top: 100px;
     padding-bottom: 50px;
@@ -57,6 +59,9 @@ pre{
 
 #container-canvas{
     text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #51c4d3;
 }
 
 #canvas{
