@@ -202,11 +202,12 @@ function inicializa(){
     imgDino = new Image();
     imgDino.src = 'images/New-Piskel.png';
     
-    dibujaEscenario();
+    
     imgLlave = new Image();
     imgPuerta = new Image();;
     imgLlave.src = 'images/Llave.png';
     imgPuerta.src = 'images/Puerta.png';
+    dibujaEscenario();
 
     setInterval(function(){
         principal();
