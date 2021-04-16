@@ -5,8 +5,12 @@ var ctx;
 //VARIABLE DE LOS FRAMES PER SECOND
 var FPS = 50;
 
-//VARIABLE DE LA IMAGEN DEL PROTAGONISTA
+//VARIABLEs DE LA IMAGENES 
 var imgDino;
+var imgLlave = new Image();
+var imgPuerta = new Image();;
+imgLlave.src = 'images/Llave.png';
+imgPuerta.src = 'images/Puerta.png';
 
 //VARIABLES DEL ANCHO Y ALTO DE LA CASILLA DEL TABLERO
 var anchoFichaTablero = 50;
@@ -29,6 +33,7 @@ var fichaCesped = '#12d600';
 var fichaAgua = '#0043fc';
 var fichaTierra = '#c9813a';
 
+
 //DIBUJA EL ESCENARIO DE JUEGO
 function dibujaEscenario(){
     var color;
@@ -48,7 +53,31 @@ function dibujaEscenario(){
                
             ctx.fillStyle = color;
             ctx.fillRect(x*anchoFichaTablero, y*altoFichaTablero, anchoFichaTablero, altoFichaTablero);
+            
+        }
+    }
+    ctx.drawImage(imgLlave, 4*50, 3*50);
+    ctx.drawImage(imgPuerta, 8*50, 1*50, 50, 50);
+    
 
+}
+
+function verificarObjeto(x, y){
+    
+    if(x == (4) && y == (3)){
+        console.log('has cogido la llave');
+        protaDino.tieneLlave = true;
+        imgLlave.src= '';
+    }
+    if(x == (8) && y == (1)){
+        if(protaDino.tieneLlave == true){
+            console.log('GANASTE');
+            imgLlave.src = 'images/Llave.png';
+            protaDino.tieneLlave = false;
+            protaDino.x = 1;
+            protaDino.y = 1;
+        }else{
+            console.log('Te falta la llave');
         }
     }
 }
@@ -58,40 +87,45 @@ var protagonista = function(){
     this.x = 1;
     this.y = 1;
     this.velocidad = 10;
-
+    this.tieneLlave = false;
     //DIBUJA EL DINO
     this.dibuja = function(){
-        ctx.drawImage(imgDino, this.x*anchoFichaTablero, this.y*altoFichaTablero);
+        ctx.drawImage(imgDino, this.x*anchoFichaTablero, this.y*altoFichaTablero, 50, 50);
         // ctx.font = '20px impact';
         // ctx.fillStyle = '#555555';
         // ctx.fillStyle = '#FF0000';
         // ctx.fillRect(this.x*anchoFichaTablero, this.y*altoFichaTablero, 50, 50);
-        ctx.fillText('X: ' + this.x + 'Y :' + this.y, 50, 50);
+        // ctx.fillText('X: ' + this.x + 'Y :' + this.y, 40, 40);
     }
+
 
     this.arriba = function(){
         if(escenario[this.y-1][this.x] == 2){
             this.y -=1;
-        }
             
+        }
+        verificarObjeto(this.x, this.y);   
     }
 
     this.abajo = function(){
         if(escenario[this.y+1][this.x] == 2){
             this.y ++;
         }
+        verificarObjeto(this.x, this.y);
     }
 
     this.derecha = function(){
         if(escenario[this.y][this.x+1] == 2){
             this.x ++;
         }
+        verificarObjeto(this.x, this.y);
     }
 
     this.izquierda = function(){
         if(escenario[this.y][this.x-1] == 2){
             this.x --;
         }
+        verificarObjeto(this.x, this.y);
     }
     
 
@@ -172,6 +206,7 @@ function inicializa(){
     //CARGAMOS LA IMAGEN DEL DINOSAURIO
     imgDino = new Image();
     imgDino.src = 'images/New-Piskel.png';
+    
     dibujaEscenario();
 
     setInterval(function(){
@@ -186,6 +221,7 @@ function principal(){
     dibujaEscenario();
    
     protaDino.dibuja();
+    
     
 }
 
