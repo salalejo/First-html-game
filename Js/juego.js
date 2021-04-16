@@ -151,14 +151,16 @@ var protagonista = function(){
 }
 
 //MODELO DEL ENEMIGO
-var enemigo = function(x,y,velocidad){
+var enemigo = function(x,y,velocidad,direccion){
     
     this.x = x;
     this.y = y;
-    
+    this.direccion = direccion;
     this.derecha = true;
     this.izquierda = false;
-    this.retraso = 15;
+    this.arriba = true;
+    this.abajo= false;
+    this.retraso = velocidad;
     this.contadorRetraso = 0;
 
     console.log('enemigo creado');
@@ -171,7 +173,8 @@ var enemigo = function(x,y,velocidad){
         if(this.contadorRetraso < this.retraso){
             this.contadorRetraso++;
         }else{
-            if(escenario[this.y][this.x+1] == 2 && this.derecha == true){
+            //mueve derecha
+            if(escenario[this.y][this.x+1] == 2 && this.derecha == true && this.direccion == 'horizontal'){
                 this.x++;
                 this.contadorRetraso = 0;
             }else{
@@ -179,12 +182,31 @@ var enemigo = function(x,y,velocidad){
                 this.derecha = false;
             }
             
-            if(escenario[this.y][this.x-1] == 2 && this.izquierda ==true){
+            //mueve izquierda
+            if(escenario[this.y][this.x-1] == 2 && this.izquierda ==true && this.direccion == 'horizontal'){
                 this.x--;
                 this.contadorRetraso = 0;
             }else{
                 this.derecha = true;
                 this.izquierda = false;
+            }
+
+            //mueve arriba
+            if(escenario[this.y-1][this.x] == 2 && this.arriba == true && this.direccion == 'vertical'){
+                this.y--;
+                this.contadorRetraso = 0;
+            }else{
+                this.abajo = true;
+                this.arriba = false;
+            }
+
+            //mueve abajo
+            if(escenario[this.y+1][this.x] == 2 && this.abajo == true && this.direccion == 'vertical'){
+                this.y++;
+                this.contadorRetraso = 0;
+            }else{
+                this.abajo = false;
+                this.arriba = true;
             }
         }
         
@@ -205,7 +227,8 @@ function borrarCanvas(){
 
 //CREACION DE OBJETOS PROTAGONISTA Y ENEMIGOS
 var protaDino = new protagonista();
-enemigos.push(new enemigo(1,5));
+enemigos.push(new enemigo(1,5,15,'horizontal'));
+enemigos.push(new enemigo(6,6,60,'vertical'));
 
 
 //EVENTO DE PRESIONAR LAS TECLAS DE MOVIMIENTO PARA MOVER EL PROTAGONISTA
@@ -266,10 +289,12 @@ function principal(){
     dibujaEscenario();
    
     protaDino.dibuja();
+    for(i=0;i<enemigos.length;i++){
+        enemigos[i].dibuja();
+        enemigos[i].mueve();
+        perder();
+    }
     
-    enemigos[0].dibuja();
-    enemigos[0].mueve();
-    perder();
     
 }
 
