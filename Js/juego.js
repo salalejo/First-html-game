@@ -7,10 +7,8 @@ var FPS = 50;
 
 //VARIABLEs DE LA IMAGENES 
 var imgDino;
-var imgLlave = new Image();
-var imgPuerta = new Image();;
-imgLlave.src = 'images/Llave.png';
-imgPuerta.src = 'images/Puerta.png';
+var imgLlave;
+var imgPuerta;
 
 //VARIABLES DEL ANCHO Y ALTO DE LA CASILLA DEL TABLERO
 var anchoFichaTablero = 50;
@@ -56,8 +54,7 @@ function dibujaEscenario(){
             
         }
     }
-    ctx.drawImage(imgLlave, 4*50, 3*50);
-    ctx.drawImage(imgPuerta, 8*50, 1*50, 50, 50);
+    
     
 
 }
@@ -90,12 +87,10 @@ var protagonista = function(){
     this.tieneLlave = false;
     //DIBUJA EL DINO
     this.dibuja = function(){
-        ctx.drawImage(imgDino, this.x*anchoFichaTablero, this.y*altoFichaTablero);
-        // ctx.font = '20px impact';
-        // ctx.fillStyle = '#555555';
-        // ctx.fillStyle = '#FF0000';
-        // ctx.fillRect(this.x*anchoFichaTablero, this.y*altoFichaTablero, 50, 50);
-        // ctx.fillText('X: ' + this.x + 'Y :' + this.y, 40, 40);
+        ctx.drawImage(imgPuerta, 8*50, 1*50, 50, 50);
+        ctx.drawImage(imgDino, this.x*anchoFichaTablero, this.y*altoFichaTablero, 50, 50);
+        ctx.drawImage(imgLlave, 4*50, 3*50);
+        
     }
 
 
@@ -208,6 +203,10 @@ function inicializa(){
     imgDino.src = 'images/New-Piskel.png';
     
     dibujaEscenario();
+    imgLlave = new Image();
+    imgPuerta = new Image();;
+    imgLlave.src = 'images/Llave.png';
+    imgPuerta.src = 'images/Puerta.png';
 
     setInterval(function(){
         principal();
