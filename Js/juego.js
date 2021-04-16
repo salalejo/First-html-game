@@ -155,10 +155,10 @@ var enemigo = function(x,y,velocidad){
     
     this.x = x;
     this.y = y;
-    var velocidad = 2;
+    
     this.derecha = true;
     this.izquierda = false;
-    this.retraso = 20;
+    this.retraso = 15;
     this.contadorRetraso = 0;
 
     console.log('enemigo creado');
