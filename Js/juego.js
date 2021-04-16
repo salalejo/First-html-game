@@ -10,6 +10,7 @@ var FPS = 50;
 var imgDino;
 var imgLlave;
 var imgPuerta;
+var tileMap;
 
 //VARIABLES DEL ANCHO Y ALTO DE LA CASILLA DEL TABLERO
 var anchoFichaTablero = 50;
@@ -18,7 +19,7 @@ var altoFichaTablero = 50;
 //ARRAY DE LAS FICHAS DEL TABLERO
 var escenario = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 2, 2, 2, 0, 0, 0, 0, 2, 0],
+    [0, 2, 2, 2, 0, 0, 0, 0, 1, 0],
     [0, 0, 2, 0, 0, 0, 0, 0, 2, 0],
     [0, 0, 2, 0, 2, 0, 0, 2, 2, 0],
     [0, 0, 2, 0, 2, 0, 0, 0, 2, 0],
@@ -38,20 +39,23 @@ function dibujaEscenario(){
     var color;
     for(y=0;y<8;y++){
         for(x=0;x<10;x++){
+            var tile = escenario[y][x];
             if(escenario[y][x]==0){
-                color = fichaCesped;
+                ctx.drawImage(tileMap,5*35,2*34,30,30,50*x,50*y,50,50);
             }
                 
             if(escenario[y][x]==1){
-                color = fichaAgua;
+                ctx.drawImage(tileMap,8*34.2,0,30,30,50*x,50*y,50,50);
             }
                 
             if(escenario[y][x]==2){
-                color = fichaTierra;
+                ctx.drawImage(tileMap,3*36,35,30,30,50*x,50*y,50,50);;
             }
                
-            ctx.fillStyle = color;
-            ctx.fillRect(x*anchoFichaTablero, y*altoFichaTablero, anchoFichaTablero, altoFichaTablero);
+        //     ctx.fillStyle = color;
+        //     ctx.fillRect(x*anchoFichaTablero, y*altoFichaTablero, anchoFichaTablero, altoFichaTablero);
+            
+            // }
             
         }
     }
@@ -99,7 +103,7 @@ var protagonista = function(){
 
 
     this.arriba = function(){
-        if(escenario[this.y-1][this.x] == 2){
+        if(escenario[this.y-1][this.x] == 2 || escenario[this.y-1][this.x] == 1){
             this.y -=1;
             
         }
@@ -107,21 +111,21 @@ var protagonista = function(){
     }
 
     this.abajo = function(){
-        if(escenario[this.y+1][this.x] == 2){
+        if(escenario[this.y+1][this.x] == 2 || escenario[this.y+1][this.x] == 1){
             this.y ++;
         }
         verificarObjeto(this.x, this.y);
     }
 
     this.derecha = function(){
-        if(escenario[this.y][this.x+1] == 2){
+        if(escenario[this.y][this.x+1] == 2 || escenario[this.x+1][this.x] == 1){
             this.x ++;
         }
         verificarObjeto(this.x, this.y);
     }
 
     this.izquierda = function(){
-        if(escenario[this.y][this.x-1] == 2){
+        if(escenario[this.y][this.x-1] == 2 || escenario[this.x-1][this.x] == 1){
             this.x --;
         }
         verificarObjeto(this.x, this.y);
@@ -205,12 +209,13 @@ function inicializa(){
     //CARGAMOS LA IMAGEN DEL DINOSAURIO
     imgDino = new Image();
     imgDino.src = 'images/New-Piskel.png';
-    
+    tileMap = new Image();
+    tileMap.src = 'images/tilemap.png';
     
     imgLlave = new Image();
     imgPuerta = new Image();;
     imgLlave.src = 'images/Llave.png';
-    imgPuerta.src = 'images/Puerta.png';
+    // imgPuerta.src = 'images/Puerta.png';
     dibujaEscenario();
 
     setInterval(function(){
