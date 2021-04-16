@@ -177,18 +177,22 @@ var enemigo = function(x,y,velocidad,direccion){
             if(escenario[this.y][this.x+1] == 2 && this.derecha == true && this.direccion == 'horizontal'){
                 this.x++;
                 this.contadorRetraso = 0;
+                imgFantasma.src = 'images/enemigofantasmaderecha.png';
             }else{
                 this.izquierda = true;
                 this.derecha = false;
+                
             }
             
             //mueve izquierda
             if(escenario[this.y][this.x-1] == 2 && this.izquierda ==true && this.direccion == 'horizontal'){
                 this.x--;
                 this.contadorRetraso = 0;
+                imgFantasma.src = 'images/enemigofantasma.png';
             }else{
                 this.derecha = true;
                 this.izquierda = false;
+                
             }
 
             //mueve arriba
@@ -274,7 +278,7 @@ function inicializa(){
 
     //CARGAMOS IMAGEN ENEMIGO
     imgFantasma = new Image();
-    imgFantasma.src = 'images/enemigofantasma.png'
+    imgFantasma.src = 'images/enemigofantasmaderecha.png'
     dibujaEscenario();
 
     setInterval(function(){
