@@ -90,7 +90,7 @@ var protagonista = function(){
     this.tieneLlave = false;
     //DIBUJA EL DINO
     this.dibuja = function(){
-        ctx.drawImage(imgDino, this.x*anchoFichaTablero, this.y*altoFichaTablero, 50, 50);
+        ctx.drawImage(imgDino, this.x*anchoFichaTablero, this.y*altoFichaTablero);
         // ctx.font = '20px impact';
         // ctx.fillStyle = '#555555';
         // ctx.fillStyle = '#FF0000';
