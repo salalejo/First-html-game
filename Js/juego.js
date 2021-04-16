@@ -227,7 +227,7 @@ function borrarCanvas(){
 
 //CREACION DE OBJETOS PROTAGONISTA Y ENEMIGOS
 var protaDino = new protagonista();
-enemigos.push(new enemigo(1,5,15,'horizontal'));
+enemigos.push(new enemigo(1,5,25,'horizontal'));
 enemigos.push(new enemigo(6,6,60,'vertical'));
 
 
